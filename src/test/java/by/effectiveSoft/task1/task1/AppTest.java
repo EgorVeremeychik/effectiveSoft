@@ -1,4 +1,4 @@
-package by.effectiveSoft.task1;
+package by.effectiveSoft.task1.task1;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
