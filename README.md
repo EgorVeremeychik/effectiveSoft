@@ -1,0 +1,2 @@
+# effectiveSoft
+effectiveSoftTask
