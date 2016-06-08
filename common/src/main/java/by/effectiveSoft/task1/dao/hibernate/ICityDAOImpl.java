@@ -1,26 +1,23 @@
 package by.effectiveSoft.task1.dao.hibernate;
 
-import by.effectiveSoft.task1.dao.CityDAO;
+import by.effectiveSoft.task1.dao.ICityDAO;
 import by.effectiveSoft.task1.dao.exception.DAOException;
 import by.effectiveSoft.task1.entity.City;
+import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
  * Created by EgorVeremeychik on 08.06.2016.
  */
 @Repository
-public class CityDAOImpl implements CityDAO {
+public class ICityDAOImpl implements ICityDAO {
 
     @Autowired
-    private DataSource dataSource;
+    private SessionFactory sessionFactory;
 
     @Override
     public Long create(City entity) throws DAOException {
@@ -29,20 +26,21 @@ public class CityDAOImpl implements CityDAO {
 
     @Override
     public City read(Long id) throws DAOException {
-        return null;
+       City city = null;
+        try {
+            if ((city = (City) sessionFactory.getCurrentSession().get(
+                    City.class, id)) == null) {
+                throw new DAOException(String.format(
+                        "the author with id = %d not found", id));
+            }
+        } catch (HibernateException he) {
+            throw new DAOException(he);
+        }
+        return city;
     }
 
     @Override
     public List<City> readAll() throws DAOException {
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("Select * from city");
-            ResultSet resultSet = preparedStatement.executeQuery()){
-            while (resultSet.next()){
-                System.out.println(resultSet.getString("name"));
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
         return null;
     }
 

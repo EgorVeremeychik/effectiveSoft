@@ -1,28 +1,42 @@
 package by.effectiveSoft.task1.entity;
 
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by EgorVeremeychik on 08.06.2016.
  */
+
+@Entity
+@Table(name = "cities")
 public class City {
+
     private Long cityId;
-    private String name;
+    private String cityName;
+    private Set<Road> roads = new HashSet<Road>();
 
     public City() {
     }
 
-    public City(Long cityId, String name) {
+    public City(Long cityId, String cityName, Set<Road> roads) {
         this.cityId = cityId;
-        this.name = name;
+        this.cityName = cityName;
+        this.roads = roads;
     }
 
-    public String getName() {
-        return name;
+    @Column(nullable = false, name = "city_name", length = 100)
+    public String getCityName() {
+        return cityName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
+    @Id
+    @GeneratedValue
+    @Column(nullable = false, name = "city_id")
     public Long getCityId() {
         return cityId;
     }
@@ -31,18 +45,28 @@ public class City {
         this.cityId = cityId;
     }
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "cityRoads", joinColumns = { @JoinColumn(name = "city_id") }, inverseJoinColumns = { @JoinColumn(name = "road_id") })
+    public Set<Road> getRoads() {
+        return roads;
+    }
+
+    public void setRoads(Set<Road> roads) {
+        this.roads = roads;
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder("Town{\n");
         result.append("\tcityId = ").append(cityId);
-        result.append(",\n\tname = ").append(name);
+        result.append(",\n\tcityName = ").append(cityName);
         result.append("}");
         return result.toString();
     }
 
     @Override
     public int hashCode() {
-        int result = (int) ((3 * cityId) + (5 * name.hashCode()));
+        int result = (int) ((3 * cityId) + (5 * cityName.hashCode()));
         return result;
     }
 
@@ -61,6 +85,6 @@ public class City {
         if (this.cityId != city.cityId) {
             return false;
         }
-        return name.equals(city.name);
+        return cityName.equals(city.cityName);
     }
 }

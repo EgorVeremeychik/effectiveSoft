@@ -1,6 +1,6 @@
 package by.effectiveSoft.task1.dao.hibernate;
 
-import by.effectiveSoft.task1.dao.CityDAO;
+import by.effectiveSoft.task1.dao.ICityDAO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,13 +13,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:common-context.xml")
-public class CityDAOImplTest extends Assert {
+public class ICityDAOImplTest extends Assert {
 
     @Autowired
-    private CityDAO cityDAO;
+    private ICityDAO ICityDAO;
 
     @Test
     public void testReadAll() throws Exception {
-        cityDAO.readAll();
+        ICityDAO.read(1L).getCityName();
     }
 }

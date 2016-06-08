@@ -1,20 +1,27 @@
 package by.effectiveSoft.task1.entity;
 
+import javax.persistence.*;
+
 /**
  * Created by EgorVeremeychik on 08.06.2016.
  */
+@Entity
+@Table(name = "roads")
 public class Road {
     private Long roadId;
-    private String name;
+    private String roadName;
 
     public Road() {
     }
 
-    public Road(Long roadId, String name) {
+    public Road(Long roadId, String roadName) {
         this.roadId = roadId;
-        this.name = name;
+        this.roadName = roadName;
     }
 
+    @Id
+    @GeneratedValue
+    @Column(name = "road_id")
     public long getRoadId() {
         return roadId;
     }
@@ -23,26 +30,27 @@ public class Road {
         this.roadId = roadId;
     }
 
-    public String getName() {
-        return name;
+    @Column(name = "road_name", nullable = false)
+    public String getRoadName() {
+        return roadName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRoadName(String roadName) {
+        this.roadName = roadName;
     }
 
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder("Road{\n");
         result.append("\troadId = ").append(roadId);
-        result.append(",\n\tname = ").append(name);
+        result.append(",\n\troadName = ").append(roadName);
         result.append("}");
         return result.toString();
     }
 
     @Override
     public int hashCode() {
-        int result = (int) ((7 * roadId) + (9 * name.hashCode()));
+        int result = (int) ((7 * roadId) + (9 * roadName.hashCode()));
         return result;
     }
 
@@ -61,7 +69,7 @@ public class Road {
         if (roadId != road.roadId) {
             return false;
         }
-        if (!name.equals(road.name)) {
+        if (!roadName.equals(road.roadName)) {
             return false;
         }
         return true;
