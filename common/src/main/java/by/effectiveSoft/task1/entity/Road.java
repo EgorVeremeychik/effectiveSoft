@@ -8,7 +8,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "roads")
 public class Road {
+    @Id
+    @GeneratedValue
+    @Column(name = "road_id")
     private Long roadId;
+
+    @Column(name = "road_name", nullable = false)
     private String roadName;
 
     public Road() {
@@ -19,9 +24,6 @@ public class Road {
         this.roadName = roadName;
     }
 
-    @Id
-    @GeneratedValue
-    @Column(name = "road_id")
     public long getRoadId() {
         return roadId;
     }
@@ -30,7 +32,6 @@ public class Road {
         this.roadId = roadId;
     }
 
-    @Column(name = "road_name", nullable = false)
     public String getRoadName() {
         return roadName;
     }

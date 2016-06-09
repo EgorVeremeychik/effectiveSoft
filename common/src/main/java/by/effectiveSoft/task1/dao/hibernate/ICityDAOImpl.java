@@ -3,45 +3,42 @@ package by.effectiveSoft.task1.dao.hibernate;
 import by.effectiveSoft.task1.dao.ICityDAO;
 import by.effectiveSoft.task1.dao.exception.DAOException;
 import by.effectiveSoft.task1.entity.City;
-import org.hibernate.HibernateException;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by EgorVeremeychik on 08.06.2016.
  */
 @Repository
+@Transactional
 public class ICityDAOImpl implements ICityDAO {
+    private static final String READ_CITY_BY_ID = "select cities from City cities where cities.cityId = ?1";
+    private static final String READ_ALL_CITIES = "select cities from City cities";
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
-    public Long create(City entity) throws DAOException {
-        return null;
+    public void create(City entity) throws DAOException {
+        entityManager.persist(entity);
     }
 
     @Override
     public City read(Long id) throws DAOException {
-       City city = null;
-        try {
-            if ((city = (City) sessionFactory.getCurrentSession().get(
-                    City.class, id)) == null) {
-                throw new DAOException(String.format(
-                        "the author with id = %d not found", id));
-            }
-        } catch (HibernateException he) {
-            throw new DAOException(he);
-        }
+        Query query = entityManager.createQuery(READ_CITY_BY_ID);
+        query.setParameter(1,id);
+        City city = (City) query.getSingleResult();
         return city;
     }
 
     @Override
     public List<City> readAll() throws DAOException {
-        return null;
+        Query query = entityManager.createQuery(READ_ALL_CITIES);
+        List<City> cityList = query.getResultList();
+        return cityList;
     }
 
     @Override

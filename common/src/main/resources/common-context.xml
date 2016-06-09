@@ -1,54 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/context
-            http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+            http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:annotation-config/>
     <context:component-scan base-package="by.effectiveSoft.task1"/>
     <context:property-placeholder location="classpath:jdbc.properties"/>
 
     <!-- MySQL DB DataSource -->
-    <bean id="dataSource"
-                class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${db.driver}"/>
         <property name="url" value="${db.url}"/>
         <property name="username" value="${db.user}"/>
         <property name="password" value="${db.password}"/>
     </bean>
 
-    <tx:annotation-driven transaction-manager="transactionManager" />
-    <!-- HIBERNATE PROFILE -->
-    <beans profile="hibernate">
-        <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-            <property name="dataSource" ref="dataSource" />
-            <property name="packagesToScan">
-                <list>
-                    <value>by.effectiveSoft.task1</value>
-                </list>
-            </property>
-            <property name="hibernateProperties">
-                <props>
-                    <prop key="hibernate.dialect"> org.hibernate.dialect.MySQLDialect
-                    </prop>
-                    <prop key="hibernate.show_show_sql"> true </prop>
-                    <prop key="hibernate.hbm2ddl.auto"> validate </prop>
-                    <prop key="hibernate.jdbc.batch_size"> 50 </prop>
-                    <prop key="hibernate.cache.use_second_level_cache"> false </prop>
-                </props>
-            </property>
-        </bean>
+    <bean id="entityManagerFactoryBean" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="persistenceUnitName" value="default"/>
+        <property name="packagesToScan" value="by.effectiveSoft.task1.entity"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+    </bean>
 
-        <bean id="transactionManager"
-              class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-            <property name="dataSource" ref="dataSource" />
-            <property name="sessionFactory" ref="sessionFactory" />
-        </bean>
-        <bean id="ICityDAO" class="by.effectiveSoft.task1.dao.hibernate.ICityDAOImpl" />
-        <bean id="IRoadDAO" class="by.effectiveSoft.task1.dao.hibernate.IRoadDAOImpl" />
-    </beans>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactoryBean" />
+        <property name="jpaDialect" ref="jpaDialect"/>
+    </bean>
+
+    <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+
+    <tx:annotation-driven transaction-manager="transactionManager"  proxy-target-class="true"/>
 
 </beans>
+
