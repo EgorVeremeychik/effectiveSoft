@@ -24,26 +24,43 @@ public class ICityDAOImplTest extends Assert {
     private ICityDAO ICityDAO;
 
     @Test
-    public void read() throws Exception {
+    public void testRead() throws Exception {
         System.out.println(ICityDAO.read(2L));
     }
 
     @Test
-    public void readAll() throws Exception {
+    public void testReadAll() throws Exception {
         System.out.println(ICityDAO.readAll());
     }
 
     @Test
-    public void create() throws Exception {
+    public void testCreate() throws Exception {
         Set<Road> roadSet = new HashSet<>();
-        Road road = new Road(4L,"qweqwe");
-        Road road1 = new Road(5L,"asdasd");
+        Road road = new Road(4L,"qwe");
+        Road road1 = new Road(5L,"aasd");
         roadSet.add(road);
         roadSet.add(road1);
         City a = new City();
-        a.setCityName("zxjhjzx");
+        a.setCityName("Москва");
         a.setRoads(roadSet);
         ICityDAO.create(a);
     }
 
+    @Test
+    public void testUpdate() throws Exception {
+        Set<Road> roadSet = new HashSet<>();
+        Road road = new Road(4L,"qwe");
+        Road road1 = new Road(5L,"aasd");
+        roadSet.add(road);
+        roadSet.add(road1);
+        City a = new City();
+        a.setCityName("йафавыв");
+        a.setRoads(roadSet);
+        ICityDAO.update(a);
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        ICityDAO.delete(9L);
+    }
 }

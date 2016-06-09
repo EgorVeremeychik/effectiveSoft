@@ -7,16 +7,35 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "roads")
+@NamedQueries({
+        @NamedQuery(name = "Road.readById", query = "select road from Road road where road.roadId = :road_id"),
+        @NamedQuery(name = "Road.readAll", query = "select road from Road road")
+})
 public class Road {
     @Id
     @GeneratedValue
-    @Column(name = "road_id")
+    @Column(nullable = false, name = "road_id")
     private Long roadId;
 
     @Column(name = "road_name", nullable = false)
     private String roadName;
 
-    public Road() {
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cities_city_id", nullable = false)
+    private City city;
+
+    public Road() {}
+
+    public Road(String roadName) {
+        this.roadName = roadName;
     }
 
     public Road(Long roadId, String roadName) {

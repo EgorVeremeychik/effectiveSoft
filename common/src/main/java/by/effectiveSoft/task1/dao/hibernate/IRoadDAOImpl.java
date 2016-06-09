@@ -1,12 +1,14 @@
 package by.effectiveSoft.task1.dao.hibernate;
 
-import by.effectiveSoft.task1.dao.exception.DAOException;
 import by.effectiveSoft.task1.dao.IRoadDAO;
-import org.springframework.beans.factory.annotation.Autowired;
+import by.effectiveSoft.task1.dao.exception.DAOException;
+import by.effectiveSoft.task1.entity.Road;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -17,30 +19,42 @@ import java.util.List;
 @Transactional
 public class IRoadDAOImpl implements IRoadDAO {
 
-    @Autowired
-    private DataSource dataSource;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
-    public void create(IRoadDAO entity) throws DAOException {
+    public void create(Road entity) throws DAOException {
+        entityManager.persist(entity);
     }
 
     @Override
-    public IRoadDAO read(Long id) throws DAOException {
-        return null;
+    public Road read(Long id) throws DAOException {
+        TypedQuery<Road> query =
+                entityManager.createNamedQuery("Road.readById", Road.class);
+        query.setParameter("road_id",id);
+        Road road = query.getSingleResult();
+        return road;
     }
 
     @Override
-    public List<IRoadDAO> readAll() throws DAOException {
-        return null;
+    public List<Road> readAll() throws DAOException {
+        TypedQuery<Road> query = entityManager.createNamedQuery("Road.readAll", Road.class);
+        List<Road> roadList = query.getResultList();
+        return roadList;
     }
 
     @Override
-    public void update(IRoadDAO entity) throws DAOException {
-
+    public void update(Road entity) throws DAOException {
+        entityManager.merge(entity);
     }
 
     @Override
     public void delete(Long id) throws DAOException {
-
+        Road road = entityManager.find(Road.class, id);
+        if (road == null) {
+            throw new DAOException(String.format(
+                    "the road with id = %d not found", id));
+        }
+        entityManager.remove(road);
     }
 }

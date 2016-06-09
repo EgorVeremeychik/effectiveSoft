@@ -15,8 +15,6 @@ import java.util.List;
 @Repository
 @Transactional
 public class ICityDAOImpl implements ICityDAO {
-    private static final String READ_CITY_BY_ID = "select cities from City cities where cities.cityId = ?1";
-    private static final String READ_ALL_CITIES = "select cities from City cities";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -28,26 +26,32 @@ public class ICityDAOImpl implements ICityDAO {
 
     @Override
     public City read(Long id) throws DAOException {
-        Query query = entityManager.createQuery(READ_CITY_BY_ID);
-        query.setParameter(1,id);
-        City city = (City) query.getSingleResult();
+        TypedQuery<City> query =
+                entityManager.createNamedQuery("City.readById", City.class);
+        query.setParameter("city_id",id);
+        City city = query.getSingleResult();
         return city;
     }
 
     @Override
     public List<City> readAll() throws DAOException {
-        Query query = entityManager.createQuery(READ_ALL_CITIES);
+        TypedQuery<City> query = entityManager.createNamedQuery("City.readAll", City.class);
         List<City> cityList = query.getResultList();
         return cityList;
     }
 
     @Override
     public void update(City entity) throws DAOException {
-
+        entityManager.merge(entity);
     }
 
     @Override
     public void delete(Long id) throws DAOException {
-
+        City city = entityManager.find(City.class, id);
+        if (city == null) {
+            throw new DAOException(String.format(
+                    "the city with id = %d not found", id));
+        }
+        entityManager.remove(city);
     }
 }

@@ -1,6 +1,7 @@
 package by.effectiveSoft.task1.service.impl;
 
 import by.effectiveSoft.task1.dao.IRoadDAO;
+import by.effectiveSoft.task1.dao.exception.DAOException;
 import by.effectiveSoft.task1.entity.Road;
 import by.effectiveSoft.task1.service.IRoadService;
 import by.effectiveSoft.task1.service.exception.ServiceException;
@@ -17,38 +18,62 @@ import java.util.List;
 public class RoadServiceImpl implements IRoadService {
 
     @Autowired
-    private IRoadDAO roadDAO;
+    private IRoadDAO iRoadDAO;
 
     public RoadServiceImpl() {
 
     }
 
-    public RoadServiceImpl(IRoadDAO roadDAO) {
-        this.roadDAO = roadDAO;
+    public RoadServiceImpl(IRoadDAO iRoadDAO) {
+        this.iRoadDAO = iRoadDAO;
     }
 
     @Override
     public void create(Road road) throws ServiceException {
-
+        try {
+            iRoadDAO.create(road);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
     public void delete(Long roadId) throws ServiceException {
-
+        try {
+            iRoadDAO.delete(roadId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
     public void update(Road road) throws ServiceException {
-
+        try {
+            iRoadDAO.update(road);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
     public Road getById(Long roadId) throws ServiceException {
-        return null;
+        Road road = null;
+        try {
+            road = iRoadDAO.read(roadId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return road;
     }
 
     @Override
     public List<Road> getAll() throws ServiceException {
-        return null;
+        List<Road> roads = null;
+        try {
+            roads = iRoadDAO.readAll();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return roads;
     }
 }
