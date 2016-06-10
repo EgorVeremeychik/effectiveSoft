@@ -11,6 +11,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+import static by.effectiveSoft.task1.entity.Road.GET_CITY_ROADS_BY_ID;
+import static by.effectiveSoft.task1.entity.Road.READ_ALL;
+import static by.effectiveSoft.task1.entity.Road.READ_BY_ID;
+
 /**
  * Created by EgorVeremeychik on 08.06.2016.
  */
@@ -30,7 +34,7 @@ public class IRoadDAOImpl implements IRoadDAO {
     @Override
     public Road read(Long id) throws DAOException {
         TypedQuery<Road> query =
-                entityManager.createNamedQuery("Road.readById", Road.class);
+                entityManager.createNamedQuery(READ_BY_ID, Road.class);
         query.setParameter("road_id",id);
         Road road = query.getSingleResult();
         return road;
@@ -38,7 +42,7 @@ public class IRoadDAOImpl implements IRoadDAO {
 
     @Override
     public List<Road> readAll() throws DAOException {
-        TypedQuery<Road> query = entityManager.createNamedQuery("Road.readAll", Road.class);
+        TypedQuery<Road> query = entityManager.createNamedQuery(READ_ALL, Road.class);
         List<Road> roadList = query.getResultList();
         return roadList;
     }
@@ -56,5 +60,13 @@ public class IRoadDAOImpl implements IRoadDAO {
                     "the road with id = %d not found", id));
         }
         entityManager.remove(road);
+    }
+
+    @Override
+    public List<Road> getCityRoadsById(Long id) throws DAOException {
+        TypedQuery<Road> query = entityManager.createNamedQuery(GET_CITY_ROADS_BY_ID, Road.class);
+        query.setParameter("city_Id", id);
+        List<Road> roadList = query.getResultList();
+        return roadList;
     }
 }

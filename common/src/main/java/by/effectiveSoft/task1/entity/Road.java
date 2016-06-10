@@ -9,9 +9,14 @@ import javax.persistence.*;
 @Table(name = "roads")
 @NamedQueries({
         @NamedQuery(name = "Road.readById", query = "select road from Road road where road.roadId = :road_id"),
-        @NamedQuery(name = "Road.readAll", query = "select road from Road road")
+        @NamedQuery(name = "Road.readAll", query = "select road from Road road"),
+        @NamedQuery(name = "Road.getCityRoadsById", query = "SELECT road FROM Road road WHERE road.city.cityId = :city_Id")
 })
 public class Road {
+    public static final String READ_BY_ID = "Road.readById";
+    public static final String READ_ALL = "Road.readAll";
+    public static final String GET_CITY_ROADS_BY_ID = "Road.getCityRoadsById";
+
     @Id
     @GeneratedValue
     @Column(nullable = false, name = "road_id")
@@ -28,8 +33,8 @@ public class Road {
         this.city = city;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cities_city_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = City.class)
+    @JoinTable(name = "cityRoads", joinColumns = @JoinColumn(name = "city_id"), inverseJoinColumns = @JoinColumn(name = "road_id"))
     private City city;
 
     public Road() {}

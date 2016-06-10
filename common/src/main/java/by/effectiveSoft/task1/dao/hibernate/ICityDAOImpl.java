@@ -3,11 +3,15 @@ package by.effectiveSoft.task1.dao.hibernate;
 import by.effectiveSoft.task1.dao.ICityDAO;
 import by.effectiveSoft.task1.dao.exception.DAOException;
 import by.effectiveSoft.task1.entity.City;
+import by.effectiveSoft.task1.entity.Road;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.List;
+
+import static by.effectiveSoft.task1.entity.City.READ_ALL;
+import static by.effectiveSoft.task1.entity.City.READ_BY_ID;
 
 /**
  * Created by EgorVeremeychik on 08.06.2016.
@@ -27,7 +31,7 @@ public class ICityDAOImpl implements ICityDAO {
     @Override
     public City read(Long id) throws DAOException {
         TypedQuery<City> query =
-                entityManager.createNamedQuery("City.readById", City.class);
+                entityManager.createNamedQuery(READ_BY_ID, City.class);
         query.setParameter("city_id",id);
         City city = query.getSingleResult();
         return city;
@@ -35,7 +39,7 @@ public class ICityDAOImpl implements ICityDAO {
 
     @Override
     public List<City> readAll() throws DAOException {
-        TypedQuery<City> query = entityManager.createNamedQuery("City.readAll", City.class);
+        TypedQuery<City> query = entityManager.createNamedQuery(READ_ALL, City.class);
         List<City> cityList = query.getResultList();
         return cityList;
     }

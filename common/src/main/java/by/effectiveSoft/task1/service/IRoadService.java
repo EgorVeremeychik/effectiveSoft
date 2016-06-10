@@ -19,4 +19,6 @@ public interface IRoadService {
 
     List<Road> getAll() throws ServiceException;
 
+    List<Road> getCityRoadsById(Long cityId) throws ServiceException;
+
 }

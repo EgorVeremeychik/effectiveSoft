@@ -3,6 +3,7 @@ package by.effectiveSoft.task1.service.impl;
 import by.effectiveSoft.task1.dao.ICityDAO;
 import by.effectiveSoft.task1.dao.exception.DAOException;
 import by.effectiveSoft.task1.entity.City;
+import by.effectiveSoft.task1.entity.Road;
 import by.effectiveSoft.task1.service.ICityService;
 import by.effectiveSoft.task1.service.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;

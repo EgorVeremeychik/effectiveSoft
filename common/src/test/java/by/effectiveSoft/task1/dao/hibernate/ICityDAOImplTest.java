@@ -41,7 +41,7 @@ public class ICityDAOImplTest extends Assert {
         roadSet.add(road);
         roadSet.add(road1);
         City a = new City();
-        a.setCityName("Москва");
+        a.setCityName("Киев");
         a.setRoads(roadSet);
         ICityDAO.create(a);
     }

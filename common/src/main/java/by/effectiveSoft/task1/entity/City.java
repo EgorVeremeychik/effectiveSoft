@@ -12,9 +12,11 @@ import java.util.Set;
 @Table(name = "cities")
 @NamedQueries({
         @NamedQuery(name = "City.readById", query = "select cities from City cities where cities.cityId = :city_id"),
-        @NamedQuery(name = "City.readAll", query = "select cities from City cities")
+        @NamedQuery(name = "City.readAll", query = "select cities from City cities"),
 })
 public class City {
+    public static final String READ_BY_ID = "City.readById";
+    public static final String READ_ALL = "City.readAll";
 
     @Id
     @GeneratedValue
@@ -24,11 +26,14 @@ public class City {
     @Column(nullable = false, name = "city_name", length = 100)
     private String cityName;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "city")
-    private Set<Road> roads = new HashSet<Road>();
-
+    @OneToMany(targetEntity = Road.class, mappedBy = "city", fetch = FetchType.LAZY)
+    private Set<Road> roads = new HashSet<>();
 
     public City() {
+    }
+
+    public City(String cityName) {
+        this.cityName = cityName;
     }
 
     public City(Long cityId, String cityName) {

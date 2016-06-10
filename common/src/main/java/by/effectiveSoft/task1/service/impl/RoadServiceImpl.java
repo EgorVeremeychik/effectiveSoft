@@ -76,4 +76,15 @@ public class RoadServiceImpl implements IRoadService {
         }
         return roads;
     }
+
+    @Override
+    public List<Road> getCityRoadsById(Long cityId) throws ServiceException {
+        List<Road> roads = null;
+        try {
+            roads = iRoadDAO.getCityRoadsById(cityId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return roads;
+    }
 }
