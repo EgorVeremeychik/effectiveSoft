@@ -8,10 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import sun.util.resources.it.CalendarData_it;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -28,7 +25,7 @@ public class CityController {
     @RequestMapping(value = "/")
     public String index(Model model) throws ServiceException {
         //model.addAttribute("city", new City());
-        return "cities";
+        return "Cities";
     }
 
     @RequestMapping(value = "/addCity")

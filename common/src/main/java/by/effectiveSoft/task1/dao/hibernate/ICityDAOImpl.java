@@ -3,11 +3,12 @@ package by.effectiveSoft.task1.dao.hibernate;
 import by.effectiveSoft.task1.dao.ICityDAO;
 import by.effectiveSoft.task1.dao.exception.DAOException;
 import by.effectiveSoft.task1.entity.City;
-import by.effectiveSoft.task1.entity.Road;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 import static by.effectiveSoft.task1.entity.City.READ_ALL;

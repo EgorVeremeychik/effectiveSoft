@@ -1,5 +1,7 @@
 /.idea/*
 /target/*
-/Task1.iml
-/common.iml
-/web.iml
+/effectiveSoft.iml
+/common/common.iml
+/common/target/*
+/web/web.iml
+/wew/target/*

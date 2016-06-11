@@ -65,7 +65,7 @@ public class IRoadDAOImpl implements IRoadDAO {
     @Override
     public List<Road> getCityRoadsById(Long id) throws DAOException {
         TypedQuery<Road> query = entityManager.createNamedQuery(GET_CITY_ROADS_BY_ID, Road.class);
-        query.setParameter("city_Id", id);
+        query.setParameter("city_id", id);
         List<Road> roadList = query.getResultList();
         return roadList;
     }

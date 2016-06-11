@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "Road.readById", query = "select road from Road road where road.roadId = :road_id"),
         @NamedQuery(name = "Road.readAll", query = "select road from Road road"),
-        @NamedQuery(name = "Road.getCityRoadsById", query = "SELECT road FROM Road road WHERE road.city.cityId = :city_Id")
+        @NamedQuery(name = "Road.getCityRoadsById", query = "select road from Road road where road.city.cityId = :city_id"),
 })
 public class Road {
     public static final String READ_BY_ID = "Road.readById";
@@ -18,23 +18,15 @@ public class Road {
     public static final String GET_CITY_ROADS_BY_ID = "Road.getCityRoadsById";
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "road_id")
     private Long roadId;
 
     @Column(name = "road_name", nullable = false)
     private String roadName;
 
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = City.class)
-    @JoinTable(name = "cityRoads", joinColumns = @JoinColumn(name = "city_id"), inverseJoinColumns = @JoinColumn(name = "road_id"))
+    @JoinTable(name = "cityRoads", joinColumns = @JoinColumn(name = "road_id"), inverseJoinColumns = @JoinColumn(name = "city_id"))
     private City city;
 
     public Road() {}
@@ -62,6 +54,14 @@ public class Road {
 
     public void setRoadName(String roadName) {
         this.roadName = roadName;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     @Override

@@ -13,13 +13,15 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = "City.readById", query = "select cities from City cities where cities.cityId = :city_id"),
         @NamedQuery(name = "City.readAll", query = "select cities from City cities"),
+        @NamedQuery(name = "City.read", query = "select road from Road road where road.city.cityId = :city_id")
 })
 public class City {
     public static final String READ_BY_ID = "City.readById";
     public static final String READ_ALL = "City.readAll";
+    public static final String READ_ALLRoads = "City.read";
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "city_id")
     private Long cityId;
 
