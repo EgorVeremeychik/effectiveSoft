@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * Created by EgorVeremeychik on 10.06.2016.
  */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:common-context.xml")
 public class RoadServiceImplTest extends Assert {

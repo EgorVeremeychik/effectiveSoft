@@ -29,12 +29,14 @@ public class RoadServiceImpl implements IRoadService {
     }
 
     @Override
-    public void create(Road road) throws ServiceException {
+    public Long create(Road road) throws ServiceException {
+        Long roadId = null;
         try {
-            iRoadDAO.create(road);
+            roadId = iRoadDAO.create(road);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
+        return roadId;
     }
 
     @Override

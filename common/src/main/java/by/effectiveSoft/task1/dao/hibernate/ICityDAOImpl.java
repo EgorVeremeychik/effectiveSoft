@@ -25,8 +25,9 @@ public class ICityDAOImpl implements ICityDAO {
     private EntityManager entityManager;
 
     @Override
-    public void create(City entity) throws DAOException {
+    public Long create(City entity) throws DAOException {
         entityManager.persist(entity);
+        return entity.getCityId();
     }
 
     @Override

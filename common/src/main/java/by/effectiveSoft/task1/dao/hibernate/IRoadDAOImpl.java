@@ -27,8 +27,9 @@ public class IRoadDAOImpl implements IRoadDAO {
     private EntityManager entityManager;
 
     @Override
-    public void create(Road entity) throws DAOException {
+    public Long create(Road entity) throws DAOException {
         entityManager.persist(entity);
+        return entity.getRoadId();
     }
 
     @Override

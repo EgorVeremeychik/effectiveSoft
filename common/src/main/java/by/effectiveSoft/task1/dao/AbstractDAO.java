@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface AbstractDAO<E, PK> {
 
-    void create(E entity) throws DAOException;
+    PK create(E entity) throws DAOException;
 
     E read(PK id) throws DAOException;
 

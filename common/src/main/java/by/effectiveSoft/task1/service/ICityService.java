@@ -1,7 +1,6 @@
 package by.effectiveSoft.task1.service;
 
 import by.effectiveSoft.task1.entity.City;
-import by.effectiveSoft.task1.entity.Road;
 import by.effectiveSoft.task1.service.exception.ServiceException;
 
 import java.util.List;

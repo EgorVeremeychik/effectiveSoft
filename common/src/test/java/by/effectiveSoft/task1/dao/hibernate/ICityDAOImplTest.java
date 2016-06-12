@@ -61,6 +61,6 @@ public class ICityDAOImplTest extends Assert {
 
     @Test
     public void testDelete() throws Exception {
-        ICityDAO.delete(9L);
+        ICityDAO.delete(14L);
     }
 }

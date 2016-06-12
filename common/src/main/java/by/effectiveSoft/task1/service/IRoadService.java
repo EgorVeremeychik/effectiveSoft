@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Egor.Veremeychik on 09.06.2016.
  */
 public interface IRoadService {
-    void create(Road road) throws ServiceException;
+    Long create(Road road) throws ServiceException;
 
     void delete(Long roadId) throws ServiceException;
 
